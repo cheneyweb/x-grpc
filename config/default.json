@@ -3,6 +3,6 @@
         "port": 50051,
         "protosDir": "/src/protos/",
         "implDir": "/src/impls/",
-        "serverAddress": "ext.na77.org"
+        "serverAddress": "localhost"
     }
 }
