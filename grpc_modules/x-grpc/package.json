@@ -1,0 +1,15 @@
+{
+  "name": "x-grpc",
+  "version": "0.1.0",
+  "description": "NODE分布式服务框架，精巧迷你",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "cheneyxu",
+  "license": "ISC",
+  "dependencies": {
+    "google-protobuf": "^3.5.0",
+    "grpc": "^1.10.1"
+  }
+}
