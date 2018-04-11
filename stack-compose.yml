@@ -1,0 +1,19 @@
+version: '3'
+services:
+
+  x-grpc: # 自定义RPC服务
+    image:  cheney/x-grpc:latest
+    ports:
+      - "50051:50051"
+  
+  visualizer: # Docker管理可视化服务
+    image: dockersamples/visualizer:latest
+    ports:
+      - "8080:8080"
+    volumes:
+      - "/var/run/docker.sock:/var/run/docker.sock"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+networks:
+  overlay:
