@@ -6,7 +6,7 @@ services:
     ports:
       - "50051:50051"
     deploy:
-      replicas: 2
+      replicas: 3
   
   visualizer: # Docker管理可视化服务
     image: dockersamples/visualizer:latest
