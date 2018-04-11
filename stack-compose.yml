@@ -28,6 +28,8 @@ services:
     command: ["-H", "unix:///var/run/docker.sock", "--no-auth"]
     ports:
       - "9090:9000"
+    networks:
+      - overlay
     volumes:
       - portainer:/data
       - "/var/run/docker.sock:/var/run/docker.sock"
