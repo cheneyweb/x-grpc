@@ -2,14 +2,16 @@ const grpc = require('grpc')
 const fs = require('fs')
 const path = require('path')
 class RPCClient {
-  constructor(port, ip = 'localhost') {
-    this.ip = ip
-    this.port = port
+  constructor(grpcConfig) {
+    this.ip = grpcConfig.serverAddress || 'localhost'
+    this.port = grpcConfig.port
+    this.protoDir = `${__dirname}/../..${grpcConfig.protosDir}`
     this.services = {}
     this.clients = {}
   }
   // 自动加载proto并且connect
-  load(protoDir) {
+  load() {
+    let protoDir = this.protoDir
     return new Promise((resolve, reject) => {
       const files = fs.readdirSync(protoDir)
       for (let file of files) {
