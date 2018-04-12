@@ -16,7 +16,7 @@ await rpc.invoke('user.login', { username: 'cheney', password: '123456' })
 ```
 
 >配置说明（在/config/default.json中，有如下配置）
-```json
+```javascript
 "grpc": {
         "port": 50051,                  // 服务端口
         "protosDir": "/src/protos/",    // 接口目录，放置proto接口定义文件
