@@ -10,7 +10,7 @@ class RPCClient {
     this.clients = {}
   }
   // 自动加载proto并且connect
-  load() {
+  connect() {
     let protoDir = this.protoDir
     return new Promise((resolve, reject) => {
       const files = fs.readdirSync(protoDir)
