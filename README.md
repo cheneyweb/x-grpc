@@ -1,6 +1,18 @@
 # x-grpc
 NODE分布式服务框架，精巧迷你
 
+>目录结构
+├── config
+│   ├── default.json
+│   ├── develop.json
+│   └── production.json
+├── node_modules
+├── package.json
+├── src
+│   ├── protos  // 接口实现目录
+│   └── impls   // 接口定义目录
+└── app.js
+
 >服务端使用说明
 ```javascript
 const RPCServer = require('x-grpc').RPCServer
