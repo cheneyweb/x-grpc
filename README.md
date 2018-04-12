@@ -15,15 +15,12 @@ await rpc.connect()
 await rpc.invoke('user.login', { username: 'cheney', password: '123456' })
 ```
 
-配置说明
->
-    在/config/default.json中，有如下配置
-
+>配置说明（在/config/default.json中，有如下配置）
 ```json
 "grpc": {
         "port": 50051,                  // 服务端口
-        "protosDir": "/src/protos/",    // 接口目录
-        "implsDir": "/src/impls/",      // 实现目录
+        "protosDir": "/src/protos/",    // 接口目录，放置proto接口定义文件
+        "implsDir": "/src/impls/",      // 实现目录，放置js接口实现文件
         "serverAddress": "localhost"    // 服务端的地址，客户端连接时使用
     }
 ```
