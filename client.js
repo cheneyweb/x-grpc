@@ -11,8 +11,15 @@ async function init() {
 
 async function runInvoke(rpc) {
   try {
-    let params = { username: 'cheney' }
-    const result = await rpc.invoke('user.login', params)
+    // 方法1
+    let params = { username: 'cheney', password: '123456' }
+    let result = await rpc.invoke('user.login', params)
+    console.info('登录信息')
+    console.info(result)
+    // 方法2
+    params = { username: 'cheney' }
+    result = await rpc.invoke('user.logout', params)
+    console.info('登出信息')
     console.info(result)
   } catch (err) {
     console.error(err)
