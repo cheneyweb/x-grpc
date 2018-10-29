@@ -1,3 +1,4 @@
+const protoLoader = require('@grpc/proto-loader')
 const grpc = require('grpc')
 const fs = require('fs')
 const path = require('path')
@@ -10,7 +11,7 @@ class RPCServer {
         this.services = {}
         this.functions = {}
     }
-    // 自动加载proto
+    // 自动加载proto和js
     run() {
         let files = fs.readdirSync(this.protoDir)
         for (let file of files) {
@@ -20,14 +21,16 @@ class RPCServer {
             const extName = filePart.ext
             const filePath = path.join(this.protoDir, file)
             if (extName == '.proto') {
-                this.services[serviceName] = grpc.load(filePath)[packageName][serviceName].service
+                // this.services[serviceName] = grpc.load(filePath)[packageName][serviceName].service
+                const packageDefinition = protoLoader.loadSync(filePath)
+                this.services[serviceName] = grpc.loadPackageDefinition(packageDefinition)[packageName][serviceName].service
             }
         }
         files = fs.readdirSync(this.implDir)
         for (let file of files) {
             const filePart = path.parse(file)
             const serviceName = filePart.name
-            const packageName = filePart.name
+            // const packageName = filePart.name
             const extName = filePart.ext
             const filePath = path.join(this.implDir, file)
             if (extName == '.js') {
@@ -37,7 +40,7 @@ class RPCServer {
         }
         return this.start()
     }
-    // 运行Server
+    // 运行rpc服务
     start() {
         const server = new grpc.Server()
         for (let serviceName of Object.keys(this.services)) {
