@@ -9,8 +9,6 @@
   "author": "cheneyxu",
   "license": "ISC",
   "dependencies": {
-    "config": "^2.0.1",
-    "google-protobuf": "^3.6.1",
-    "grpc": "^1.15.1"
+    "config": "^2.0.1"
   }
 }

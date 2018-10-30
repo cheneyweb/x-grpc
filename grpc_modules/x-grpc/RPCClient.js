@@ -1,33 +1,32 @@
+const protoLoader = require('@grpc/proto-loader')
 const grpc = require('grpc')
-const fs = require('fs')
+const fs = require('fs').promises
 const path = require('path')
 class RPCClient {
   constructor(grpcConfig) {
     this.ip = grpcConfig.serverAddress || 'localhost'
     this.port = grpcConfig.port
     this.protoDir = `${__dirname}/../..${grpcConfig.protosDir}`
-    this.services = {}
     this.clients = {}
   }
   // 自动加载proto并且connect
   connect() {
-    let protoDir = this.protoDir
     return new Promise((resolve, reject) => {
-      const files = fs.readdirSync(protoDir)
-      for (let file of files) {
-        const filePart = path.parse(file)
-        const serviceName = filePart.name
-        const packageName = filePart.name
-        const extName = filePart.ext
-        const filePath = path.join(protoDir, file)
-        if (extName == '.proto') {
-          const proto = grpc.load(filePath)
-          const Service = proto[packageName][serviceName]
-          this.services[serviceName] = Service
-          this.clients[serviceName] = new Service(`${this.ip}:${this.port}`, grpc.credentials.createInsecure())
+      fs.readdir(this.protoDir).then((res) => {
+        for (let file of res) {
+          const filePart = path.parse(file)
+          const packageName = filePart.name
+          const serviceName = filePart.name
+          const extName = filePart.ext
+          const filePath = path.join(this.protoDir, file)
+          if (extName == '.proto') {
+            const packageDefinition = protoLoader.loadSync(filePath)
+            const Service = grpc.loadPackageDefinition(packageDefinition)[packageName][serviceName]
+            this.clients[serviceName] = new Service(`${this.ip}:${this.port}`, grpc.credentials.createInsecure())
+          }
         }
-      }
-      resolve()
+        resolve()
+      })
     })
   }
   // 远程调用

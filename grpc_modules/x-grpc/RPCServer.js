@@ -1,6 +1,6 @@
 const protoLoader = require('@grpc/proto-loader')
 const grpc = require('grpc')
-const fs = require('fs')
+const fs = require('fs').promises
 const path = require('path')
 class RPCServer {
     constructor(grpcConfig) {
@@ -13,32 +13,32 @@ class RPCServer {
     }
     // 自动加载proto和js
     run() {
-        let files = fs.readdirSync(this.protoDir)
-        for (let file of files) {
-            const filePart = path.parse(file)
-            const serviceName = filePart.name
-            const packageName = filePart.name
-            const extName = filePart.ext
-            const filePath = path.join(this.protoDir, file)
-            if (extName == '.proto') {
-                // this.services[serviceName] = grpc.load(filePath)[packageName][serviceName].service
-                const packageDefinition = protoLoader.loadSync(filePath)
-                this.services[serviceName] = grpc.loadPackageDefinition(packageDefinition)[packageName][serviceName].service
+        const p0 = fs.readdir(this.protoDir)
+        const p1 = fs.readdir(this.implDir)
+        Promise.all([p0, p1]).then(res => {
+            for (let file of res[0]) {
+                const filePart = path.parse(file)
+                const packageName = filePart.name
+                const serviceName = filePart.name
+                const filePath = path.join(this.protoDir, file)
+                if (filePart.ext == '.proto') {
+                    const packageDefinition = protoLoader.loadSync(filePath)
+                    this.services[serviceName] = grpc.loadPackageDefinition(packageDefinition)[packageName][serviceName].service
+                }
             }
-        }
-        files = fs.readdirSync(this.implDir)
-        for (let file of files) {
-            const filePart = path.parse(file)
-            const serviceName = filePart.name
-            // const packageName = filePart.name
-            const extName = filePart.ext
-            const filePath = path.join(this.implDir, file)
-            if (extName == '.js') {
-                const functions = require(filePath)
-                this.functions[serviceName] = Object.assign({}, functions)
+            for (let file of res[1]) {
+                const filePart = path.parse(file)
+                const serviceName = filePart.name
+                // const packageName = filePart.name
+                const extName = filePart.ext
+                const filePath = path.join(this.implDir, file)
+                if (extName == '.js') {
+                    const functions = require(filePath)
+                    this.functions[serviceName] = Object.assign({}, functions)
+                }
             }
-        }
-        return this.start()
+            this.start()
+        })
     }
     // 运行rpc服务
     start() {
