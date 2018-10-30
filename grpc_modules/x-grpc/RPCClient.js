@@ -7,6 +7,7 @@ class RPCClient {
     this.ip = grpcConfig.serverAddress || 'localhost'
     this.port = grpcConfig.port
     this.protoDir = `${__dirname}/../..${grpcConfig.protosDir}`
+    this.loaderOptions = grpcConfig.loaderOptions
     this.clients = {}
   }
   // 自动加载proto并且connect
@@ -20,7 +21,7 @@ class RPCClient {
           const extName = filePart.ext
           const filePath = path.join(this.protoDir, file)
           if (extName == '.proto') {
-            const packageDefinition = protoLoader.loadSync(filePath)
+            const packageDefinition = protoLoader.loadSync(filePath, this.loaderOptions)
             const Service = grpc.loadPackageDefinition(packageDefinition)[packageName][serviceName]
             this.clients[serviceName] = new Service(`${this.ip}:${this.port}`, grpc.credentials.createInsecure())
           }

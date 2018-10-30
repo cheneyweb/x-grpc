@@ -8,6 +8,7 @@ class RPCServer {
         this.port = grpcConfig.port
         this.protoDir = `${__dirname}/../..${grpcConfig.protosDir}`
         this.implDir = `${__dirname}/../..${grpcConfig.implsDir}`
+        this.loaderOptions = grpcConfig.loaderOptions
         this.services = {}
         this.functions = {}
     }
@@ -22,7 +23,7 @@ class RPCServer {
                 const serviceName = filePart.name
                 const filePath = path.join(this.protoDir, file)
                 if (filePart.ext == '.proto') {
-                    const packageDefinition = protoLoader.loadSync(filePath)
+                    const packageDefinition = protoLoader.loadSync(filePath, this.loaderOptions)
                     this.services[serviceName] = grpc.loadPackageDefinition(packageDefinition)[packageName][serviceName].service
                 }
             }
