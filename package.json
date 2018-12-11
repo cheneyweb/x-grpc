@@ -9,6 +9,6 @@
   "author": "cheneyxu",
   "license": "ISC",
   "dependencies": {
-    "config": "^2.0.1"
+    "config": "^3.0.0"
   }
 }
