@@ -1,4 +1,5 @@
 language: node_js
+node_js: 'node'
 env:
   - IMAGE_NAME=cheney/${TRAVIS_BUILD_DIR##*/} #镜像名称与当前目录名称一致
 services:
