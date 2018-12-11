@@ -1,6 +1,6 @@
 {
     "grpc": {
-        "port": 50051,
+        "port": 9090,
         "protosDir": "/src/protos/",
         "implsDir": "/src/impls/",
         "serverAddress": "localhost"

@@ -8,14 +8,14 @@ services:
       - '8080:8080'
       - '9901:9901'
     networks:
-      - server-net
+      - overlay
 
   x-grpc: #x-grpc服务
     image: cheney/x-grpc:latest
     ports:
       - '9090:9090'
     networks:
-      - server-net
+      - overlay
 
 networks:
-  server-net:
+  overlay:
