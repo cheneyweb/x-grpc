@@ -1,5 +1,6 @@
 const config = require('config')
-const RPCClient = require('./grpc_modules/x-grpc').RPCClient
+const RPCClient = require('x-grpc').RPCClient
+// const RPCClient = require('./grpc_modules/x-grpc').RPCClient
 
 async function init() {
   const rpc = new RPCClient(config.grpc)
@@ -13,12 +14,12 @@ async function runInvoke(rpc) {
   try {
     // 方法1
     let params = { username: 'cheney', password: '123456' }
-    let result = await rpc.invoke('user.login', params)
+    let result = await rpc.invoke('User.login', params)
     console.info('登录信息')
     console.info(result)
     // 方法2
     params = { username: 'cheney' }
-    result = await rpc.invoke('user.logout', params)
+    result = await rpc.invoke('User.logout', params)
     console.info('登出信息')
     console.info(result)
   } catch (err) {

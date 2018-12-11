@@ -9,6 +9,7 @@
   "author": "cheneyxu",
   "license": "ISC",
   "dependencies": {
-    "config": "^3.0.0"
+    "config": "^3.0.0",
+    "x-grpc": "^0.7.0"
   }
 }

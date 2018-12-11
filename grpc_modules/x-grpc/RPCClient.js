@@ -8,7 +8,7 @@ class RPCClient {
     this.port = grpcConfig.port
     this.protoDir = `${__dirname}/../..${grpcConfig.protosDir}`
     this.loaderOptions = grpcConfig.loaderOptions
-    this.clients = {}
+    this.clientMap = {}
   }
   // 自动加载proto并且connect
   connect() {
@@ -17,13 +17,12 @@ class RPCClient {
         for (let file of res) {
           const filePart = path.parse(file)
           const packageName = filePart.name
-          const serviceName = filePart.name
-          const extName = filePart.ext
+          const serviceName = filePart.name.charAt(0).toUpperCase() + filePart.name.slice(1)
           const filePath = path.join(this.protoDir, file)
-          if (extName == '.proto') {
+          if (filePart.ext == '.proto') {
             const packageDefinition = protoLoader.loadSync(filePath, this.loaderOptions)
             const Service = grpc.loadPackageDefinition(packageDefinition)[packageName][serviceName]
-            this.clients[serviceName] = new Service(`${this.ip}:${this.port}`, grpc.credentials.createInsecure())
+            this.clientMap[serviceName] = new Service(`${this.ip}:${this.port}`, grpc.credentials.createInsecure())
           }
         }
         resolve()
@@ -33,15 +32,13 @@ class RPCClient {
   // 远程调用
   invoke(serviceMethod, params = {}) {
     return new Promise((resolve, reject) => {
-      const serviceParams = serviceMethod.split('.')
-      const serviceName = serviceParams[0]
-      const name = serviceParams[1]
-      if (this.clients[serviceName] && this.clients[serviceName][name]) {
-        this.clients[serviceName][name](params, (err, res) => {
+      const [serviceName, methodname] = serviceMethod.split('.')
+      if (this.clientMap[serviceName] && this.clientMap[serviceName][methodname]) {
+        this.clientMap[serviceName][methodname](params, (err, res) => {
           err ? reject(err) : resolve(res)
         })
       } else {
-        reject(new Error(`RPC endpoint: "${serviceName}.${name}" does not exists!`))
+        reject(new Error(`RPC endpoint: "${serviceName}.${methodname}" does not exists!`))
       }
     })
   }

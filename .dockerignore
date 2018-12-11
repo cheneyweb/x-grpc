@@ -1,0 +1,12 @@
+.git
+.gitignore
+.travis.yml
+protoc.sh
+package-lock.json
+stack-compose.yml
+client.js
+*Dockerfile*
+*docker-compose*
+node_modules
+grpc_modules
+web

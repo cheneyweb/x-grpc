@@ -9,8 +9,8 @@ class RPCServer {
         this.protoDir = `${__dirname}/../..${grpcConfig.protosDir}`
         this.implDir = `${__dirname}/../..${grpcConfig.implsDir}`
         this.loaderOptions = grpcConfig.loaderOptions
-        this.services = {}
-        this.functions = {}
+        this.serviceMap = {}
+        this.functionMap = {}
     }
     // 自动加载proto和js
     run() {
@@ -20,22 +20,19 @@ class RPCServer {
             for (let file of res[0]) {
                 const filePart = path.parse(file)
                 const packageName = filePart.name
-                const serviceName = filePart.name
+                const serviceName = filePart.name.charAt(0).toUpperCase() + filePart.name.slice(1)
                 const filePath = path.join(this.protoDir, file)
                 if (filePart.ext == '.proto') {
                     const packageDefinition = protoLoader.loadSync(filePath, this.loaderOptions)
-                    this.services[serviceName] = grpc.loadPackageDefinition(packageDefinition)[packageName][serviceName].service
+                    this.serviceMap[serviceName] = grpc.loadPackageDefinition(packageDefinition)[packageName][serviceName].service
                 }
             }
             for (let file of res[1]) {
                 const filePart = path.parse(file)
-                const serviceName = filePart.name
-                // const packageName = filePart.name
-                const extName = filePart.ext
+                const serviceName = filePart.name.charAt(0).toUpperCase() + filePart.name.slice(1)
                 const filePath = path.join(this.implDir, file)
-                if (extName == '.js') {
-                    const functions = require(filePath)
-                    this.functions[serviceName] = Object.assign({}, functions)
+                if (filePart.ext == '.js') {
+                    this.functionMap[serviceName] = require(filePath)
                 }
             }
             this.start()
@@ -44,9 +41,8 @@ class RPCServer {
     // 运行rpc服务
     start() {
         const server = new grpc.Server()
-        for (let serviceName of Object.keys(this.services)) {
-            const service = this.services[serviceName]
-            server.addService(service, this.functions[serviceName])
+        for (let serviceName in this.serviceMap) {
+            server.addService(this.serviceMap[serviceName], this.functionMap[serviceName])
         }
         server.bind(`${this.ip}:${this.port}`, grpc.ServerCredentials.createInsecure())
         server.start()

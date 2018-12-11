@@ -2,7 +2,7 @@ syntax = "proto3";
 package user;
 
 // 服务定义
-service user {
+service User {
   rpc login (LoginReq) returns (LoginRes) {}
   rpc logout (LogoutReq) returns (LogoutRes) {}
 }
