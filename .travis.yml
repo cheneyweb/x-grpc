@@ -2,6 +2,7 @@ language: node_js
 node_js: 'node'
 env:
   - IMAGE_NAME=cheney/${TRAVIS_BUILD_DIR##*/} #镜像名称与当前目录名称一致
+  - IMAGE_NAME_ENVOY=cheney/envoy             #grpc的web代理镜像名称
 services:
   - docker
 #指定分支
@@ -11,9 +12,12 @@ branches:
 #执行构建
 script:
   - docker build -t $IMAGE_NAME ./
+  - docker build -t $IMAGE_NAME_ENVOY ./envoy
 #推送至DockerHub
 after_script:
   - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
   - docker push $IMAGE_NAME
+  - docker push $IMAGE_NAME_ENVOY
+
 
   
