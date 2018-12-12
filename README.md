@@ -56,17 +56,20 @@ await rpc.invoke('user.login', { username: 'cheney', password: '123456' })
     └── package.json
 ```
 
->服务启动
+>单服务启动
 npm run start
 
->客户端连接
+>单客户端连接
 node client.js
 
+>WEB服务启动
+npm run compose-up
+
 >WEB客户端连接
-http://{staticserver}/web/index.html
+http://{staticserver}/x-grpc/web/index.html
 
 >集群部署
-docker stack deploy --compose-file=docker-compose.yml n1
+npm run stack-deploy
 
 >服务拓展
 docker service scale n1_x-grpc=3

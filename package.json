@@ -4,7 +4,10 @@
   "description": "基于x-grpc的NODE分布式服务",
   "main": "app.js",
   "scripts": {
-    "start": "node app.js"
+    "start": "node app.js",
+    "compose-up": "docker-compose -f docker-compose.yml up -d --build",
+    "compose-down": "docker-compose -f docker-compose.yml down",
+    "stack-deploy": "docker stack deploy --compose-file=docker-compose.yml n1"
   },
   "author": "cheneyxu",
   "license": "ISC",
