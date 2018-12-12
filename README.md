@@ -16,6 +16,11 @@ const rpc = await new RPCClient(config.grpc).connect()
 await rpc.invoke('User.login', { username: 'cheney', password: '123456' })
 ```
 
+>WEB使用说明
+```javascript
+http://{staticserver}/x-grpc/web/index.html
+```
+
 >配置说明（在/config/default.json中，有如下配置）
 ```javascript
 "grpc": {
@@ -26,21 +31,15 @@ await rpc.invoke('User.login', { username: 'cheney', password: '123456' })
     }
 ```
 
->单服务启动
+>单点服务启动
 
 npm run start
 
->单客户端连接
+>WEB服务启动
 
-node client.js
+1、修改envoy/envoy.yaml中的n1_x-grpc为x-grpc
 
->WEB服务启动（启动前需要修改envoy/envoy.yaml中的n1_x-grpc为x-grpc）
-
-npm run compose-up
-
->WEB客户端连接
-
-http://{staticserver}/x-grpc/web/index.html
+2、npm run compose-up
 
 >集群部署
 
