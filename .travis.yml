@@ -1,8 +1,7 @@
 language: node_js
 node_js: 'node'
 env:
-  - IMAGE_NAME=cheney/${TRAVIS_BUILD_DIR##*/} #镜像名称与当前目录名称一致
-  - IMAGE_NAME_ENVOY=cheney/envoy             #grpc的web代理镜像名称
+  - IMAGE_NAME=cheney/${TRAVIS_BUILD_DIR##*/} IMAGE_NAME_ENVOY=cheney/envoy
 services:
   - docker
 #指定分支
