@@ -63,10 +63,10 @@ npm run start
 node client.js
 
 >WEB客户端连接
-serve web/index.html
+http://{staticserver}/web/index.html
 
 >集群部署
-docker stack deploy --compose-file=stack-compose.yml n1
+docker stack deploy --compose-file=docker-compose.yml n1
 
 >服务拓展
 docker service scale n1_x-grpc=3
