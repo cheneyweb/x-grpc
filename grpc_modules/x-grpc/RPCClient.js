@@ -25,7 +25,7 @@ class RPCClient {
             this.clientMap[serviceName] = new Service(`${this.ip}:${this.port}`, grpc.credentials.createInsecure())
           }
         }
-        resolve()
+        resolve(this)
       })
     })
   }

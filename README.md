@@ -12,8 +12,7 @@ new RPCServer(config.grpc).run()
 >客户端使用说明
 ```javascript
 const RPCClient = require('x-grpc').RPCClient
-const rpc = new RPCClient(config.grpc)
-await rpc.connect()
+const rpc = await new RPCClient(config.grpc).connect()
 await rpc.invoke('User.login', { username: 'cheney', password: '123456' })
 ```
 
@@ -26,6 +25,30 @@ await rpc.invoke('User.login', { username: 'cheney', password: '123456' })
         "serverAddress": "localhost"    // 服务端的地址，客户端连接时使用
     }
 ```
+
+>单服务启动
+
+npm run start
+
+>单客户端连接
+
+node client.js
+
+>WEB服务启动（启动前需要修改envoy/envoy.yaml中的n1_x-grpc为x-grpc）
+
+npm run compose-up
+
+>WEB客户端连接
+
+http://{staticserver}/x-grpc/web/index.html
+
+>集群部署
+
+npm run stack-deploy
+
+>服务拓展
+
+docker service scale n1_x-grpc=3
 
 >目录结构
 ```
@@ -50,21 +73,3 @@ await rpc.invoke('User.login', { username: 'cheney', password: '123456' })
     ├── package-lock.json
     └── package.json
 ```
-
->单服务启动
-npm run start
-
->单客户端连接（启动前注意config中的serverAddresss填写正确）
-node client.js
-
->WEB服务启动（启动前需要修改envoy/envoy.yaml中的n1_x-grpc为x-grpc）
-npm run compose-up
-
->WEB客户端连接
-http://{staticserver}/x-grpc/web/index.html
-
->集群部署
-npm run stack-deploy
-
->服务拓展
-docker service scale n1_x-grpc=3
