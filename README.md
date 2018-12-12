@@ -1,4 +1,6 @@
 # x-grpc
+[![Build Status](https://travis-ci.com/cheneyweb/x-grpc.svg?branch=master)](https://travis-ci.com/cheneyweb/x-grpc)
+
 NODE分布式服务框架，精巧迷你
 
 >服务端使用说明
