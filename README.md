@@ -25,6 +25,37 @@ await rpc.invoke('user.login', { username: 'cheney', password: '123456' })
     }
 ```
 
+>目录结构
+```
+├── Dockerfile              // x-grpc容器构建文件
+├── app.js                  // x-grpc服务入口
+├── client.js               // x-grpc客户端演示
+├── config                  // x-grpc服务配置
+│   ├── default.json
+│   ├── develop.json
+│   └── production.json
+├── docker-compose.yml      // 集群文件
+├── envoy                   // x-grpc-web服务代理
+│   ├── Dockerfile
+│   └── envoy.yaml
+├── grpc_modules
+│   └── x-grpc
+├── node_modules
+├── package.json
+├── protoc.sh               // 生成grpc-web代码的脚本
+├── src                     // x-grpc服务逻辑
+│   ├── impls
+│   └── protos
+└── web                     // grpc-web前端演示
+    ├── client.js
+    ├── dist
+    ├── grpc
+    ├── index.html
+    ├── node_modules
+    ├── package-lock.json
+    └── package.json
+```
+
 >服务启动
 node app.js
 
