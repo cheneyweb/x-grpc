@@ -7,7 +7,7 @@
     "start": "node app.js",
     "compose-up": "docker-compose -f docker-compose.yml up -d --build",
     "compose-down": "docker-compose -f docker-compose.yml down",
-    "stack-deploy": "docker stack deploy -c docker-compose.yml n1 --prune",
+    "stack-deploy": "docker stack deploy --prune -c docker-compose.yml n1",
     "stack-rm": "docker stack rm n1"
   },
   "author": "cheneyxu",
