@@ -57,13 +57,13 @@ await rpc.invoke('user.login', { username: 'cheney', password: '123456' })
 ```
 
 >服务启动
-node app.js
+npm run start
 
 >客户端连接
 node client.js
 
->单镜像构建:
-docker build -t cheney/x-grpc ./
+>WEB客户端连接
+serve web/index.html
 
 >集群部署
 docker stack deploy --compose-file=stack-compose.yml n1
