@@ -12,7 +12,7 @@ new RPCServer(config.grpc).run()
 const RPCClient = require('x-grpc').RPCClient
 const rpc = new RPCClient(config.grpc)
 await rpc.connect()
-await rpc.invoke('user.login', { username: 'cheney', password: '123456' })
+await rpc.invoke('User.login', { username: 'cheney', password: '123456' })
 ```
 
 >配置说明（在/config/default.json中，有如下配置）
@@ -31,25 +31,18 @@ await rpc.invoke('user.login', { username: 'cheney', password: '123456' })
 ├── app.js                  // x-grpc服务入口
 ├── client.js               // x-grpc客户端演示
 ├── config                  // x-grpc服务配置
-│   ├── default.json
-│   ├── develop.json
-│   └── production.json
 ├── docker-compose.yml      // 集群文件
-├── envoy                   // x-grpc-web服务代理
-│   ├── Dockerfile
-│   └── envoy.yaml
-├── grpc_modules
-│   └── x-grpc
-├── node_modules
-├── package.json
-├── protoc.sh               // 生成grpc-web代码的脚本
-├── src                     // x-grpc服务逻辑
-│   ├── impls
-│   └── protos
+├── envoy                   // grpc-web服务代理
+├── sh                      // shell脚本
+│   ├── protoc.sh           // 生成grpc-web代码的脚本
+│   └── docker-prune.sh     // 清理无效的容器和镜像
+├── src                     // x-grpc服务
+│   ├── impls               // x-grpc服务逻辑
+│   └── protos              // x-grpc服务接口
 └── web                     // grpc-web前端演示
     ├── client.js
     ├── dist
-    ├── grpc
+    ├── grpc                // 放置通过protoc.sh生成的grpc-web代码
     ├── index.html
     ├── node_modules
     ├── package-lock.json
@@ -59,10 +52,10 @@ await rpc.invoke('user.login', { username: 'cheney', password: '123456' })
 >单服务启动
 npm run start
 
->单客户端连接
+>单客户端连接（启动前注意config中的serverAddresss填写正确）
 node client.js
 
->WEB服务启动
+>WEB服务启动（启动前需要修改envoy/envoy.yaml中的n1_x-grpc为x-grpc）
 npm run compose-up
 
 >WEB客户端连接

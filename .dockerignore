@@ -1,7 +1,6 @@
 .git
 .gitignore
 .travis.yml
-protoc.sh
 package-lock.json
 stack-compose.yml
 client.js
@@ -10,3 +9,5 @@ client.js
 node_modules
 grpc_modules
 web
+sh
+README.md
