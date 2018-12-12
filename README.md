@@ -33,21 +33,21 @@ http://{staticserver}/x-grpc/web/index.html
 
 >单点服务启动
 
-npm run start
+- npm run start
 
 >WEB服务启动
 
-1、修改envoy/envoy.yaml中的n1_x-grpc为x-grpc
+- 修改envoy/envoy.yaml中的n1_x-grpc为x-grpc
 
-2、npm run compose-up
+- npm run compose-up
 
 >集群部署
 
-npm run stack-deploy
+- npm run stack-deploy
 
 >服务拓展
 
-docker service scale n1_x-grpc=3
+- docker service scale n1_x-grpc=3
 
 >目录结构
 ```
@@ -56,8 +56,8 @@ docker service scale n1_x-grpc=3
 ├── client.js               // x-grpc客户端演示
 ├── config                  // x-grpc服务配置
 ├── docker-compose.yml      // 集群文件
-├── envoy                   // grpc-web服务代理
-├── sh                      // shell脚本
+├── envoy                   // grpc-web服务代理
+├── sh                      // shell脚本
 │   ├── protoc.sh           // 生成grpc-web代码的脚本
 │   └── docker-prune.sh     // 清理无效的容器和镜像
 ├── src                     // x-grpc服务
