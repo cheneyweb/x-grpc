@@ -13,7 +13,7 @@ new RPCServer(config.grpc).run()
 ```javascript
 const RPCClient = require('x-grpc').RPCClient
 const rpc = await new RPCClient(config.grpc).connect()
-await rpc.invoke('User.login', { username: 'cheney', password: '123456' })
+await rpc.invoke('demo.User.login', { username: 'cheney', password: '123456' }) // package.Service.method
 ```
 
 >WEB使用说明

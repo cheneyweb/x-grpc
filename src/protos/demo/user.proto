@@ -1,5 +1,5 @@
 syntax = "proto3";
-package user;
+package demo;
 
 // 服务定义
 service User {
@@ -14,8 +14,8 @@ message LoginReq {
 }
 
 message LoginRes {
-  string res = 1;
-  string code = 2;
+  string code = 1;
+  string res = 2;
 }
 
 message LogoutReq {
@@ -23,6 +23,6 @@ message LogoutReq {
 }
 
 message LogoutRes {
-  string res = 1;
-  string code = 2;
+  string code = 1;
+  string res = 2;
 }

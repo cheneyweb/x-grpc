@@ -1,7 +1,10 @@
-for file in ../src/protos/*.proto
+for package in ../src/protos/*
 do
-/Users/cheney/tool/protoc-3.6.1-osx-x86_64/bin/protoc                           \
---plugin=/Users/cheney/tool/protoc-3.6.1-osx-x86_64/bin/protoc-gen-grpc-web     \
--I=../src/protos $file --js_out=import_style=commonjs:../web/grpc                 \
---grpc-web_out=import_style=commonjs,mode=grpcwebtext:../web/grpc
+    for file in $package/*.proto
+    do
+        /Users/cheney/tool/protoc-3.6.1-osx-x86_64/bin/protoc                           \
+        --plugin=/Users/cheney/tool/protoc-3.6.1-osx-x86_64/bin/protoc-gen-grpc-web     \
+        -I=$package $file --js_out=import_style=commonjs:$package                       \
+        --grpc-web_out=import_style=commonjs,mode=grpcwebtext:$package
+    done
 done

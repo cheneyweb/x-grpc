@@ -1,5 +1,5 @@
 /**
- * @fileoverview gRPC-Web generated client stub for user
+ * @fileoverview gRPC-Web generated client stub for demo
  * @enhanceable
  * @public
  */
@@ -12,7 +12,7 @@ const grpc = {};
 grpc.web = require('grpc-web');
 
 const proto = {};
-proto.user = require('./user_pb.js');
+proto.demo = require('./user_pb.js');
 
 /**
  * @param {string} hostname
@@ -22,7 +22,7 @@ proto.user = require('./user_pb.js');
  * @struct
  * @final
  */
-proto.user.UserClient =
+proto.demo.UserClient =
     function(hostname, credentials, options) {
   if (!options) options = {};
   options['format'] = 'text';
@@ -58,15 +58,15 @@ proto.user.UserClient =
  * @struct
  * @final
  */
-proto.user.UserPromiseClient =
+proto.demo.UserPromiseClient =
     function(hostname, credentials, options) {
   if (!options) options = {};
   options['format'] = 'text';
 
   /**
-   * @private @const {!proto.user.UserClient} The delegate callback based client
+   * @private @const {!proto.demo.UserClient} The delegate callback based client
    */
-  this.delegateClient_ = new proto.user.UserClient(
+  this.delegateClient_ = new proto.demo.UserClient(
       hostname, credentials, options);
 
 };
@@ -75,33 +75,33 @@ proto.user.UserPromiseClient =
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.user.LoginReq,
- *   !proto.user.LoginRes>}
+ *   !proto.demo.LoginReq,
+ *   !proto.demo.LoginRes>}
  */
 const methodInfo_User_login = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.user.LoginRes,
-  /** @param {!proto.user.LoginReq} request */
+  proto.demo.LoginRes,
+  /** @param {!proto.demo.LoginReq} request */
   function(request) {
     return request.serializeBinary();
   },
-  proto.user.LoginRes.deserializeBinary
+  proto.demo.LoginRes.deserializeBinary
 );
 
 
 /**
- * @param {!proto.user.LoginReq} request The
+ * @param {!proto.demo.LoginReq} request The
  *     request proto
  * @param {!Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.Error, ?proto.user.LoginRes)}
+ * @param {function(?grpc.web.Error, ?proto.demo.LoginRes)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.user.LoginRes>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.demo.LoginRes>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.user.UserClient.prototype.login =
+proto.demo.UserClient.prototype.login =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/user.User/login',
+      '/demo.User/login',
       request,
       metadata,
       methodInfo_User_login,
@@ -110,14 +110,14 @@ proto.user.UserClient.prototype.login =
 
 
 /**
- * @param {!proto.user.LoginReq} request The
+ * @param {!proto.demo.LoginReq} request The
  *     request proto
  * @param {!Object<string, string>} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.user.LoginRes>}
+ * @return {!Promise<!proto.demo.LoginRes>}
  *     The XHR Node Readable Stream
  */
-proto.user.UserPromiseClient.prototype.login =
+proto.demo.UserPromiseClient.prototype.login =
     function(request, metadata) {
   return new Promise((resolve, reject) => {
     this.delegateClient_.login(
@@ -131,33 +131,33 @@ proto.user.UserPromiseClient.prototype.login =
 /**
  * @const
  * @type {!grpc.web.AbstractClientBase.MethodInfo<
- *   !proto.user.LogoutReq,
- *   !proto.user.LogoutRes>}
+ *   !proto.demo.LogoutReq,
+ *   !proto.demo.LogoutRes>}
  */
 const methodInfo_User_logout = new grpc.web.AbstractClientBase.MethodInfo(
-  proto.user.LogoutRes,
-  /** @param {!proto.user.LogoutReq} request */
+  proto.demo.LogoutRes,
+  /** @param {!proto.demo.LogoutReq} request */
   function(request) {
     return request.serializeBinary();
   },
-  proto.user.LogoutRes.deserializeBinary
+  proto.demo.LogoutRes.deserializeBinary
 );
 
 
 /**
- * @param {!proto.user.LogoutReq} request The
+ * @param {!proto.demo.LogoutReq} request The
  *     request proto
  * @param {!Object<string, string>} metadata User defined
  *     call metadata
- * @param {function(?grpc.web.Error, ?proto.user.LogoutRes)}
+ * @param {function(?grpc.web.Error, ?proto.demo.LogoutRes)}
  *     callback The callback function(error, response)
- * @return {!grpc.web.ClientReadableStream<!proto.user.LogoutRes>|undefined}
+ * @return {!grpc.web.ClientReadableStream<!proto.demo.LogoutRes>|undefined}
  *     The XHR Node Readable Stream
  */
-proto.user.UserClient.prototype.logout =
+proto.demo.UserClient.prototype.logout =
     function(request, metadata, callback) {
   return this.client_.rpcCall(this.hostname_ +
-      '/user.User/logout',
+      '/demo.User/logout',
       request,
       metadata,
       methodInfo_User_logout,
@@ -166,14 +166,14 @@ proto.user.UserClient.prototype.logout =
 
 
 /**
- * @param {!proto.user.LogoutReq} request The
+ * @param {!proto.demo.LogoutReq} request The
  *     request proto
  * @param {!Object<string, string>} metadata User defined
  *     call metadata
- * @return {!Promise<!proto.user.LogoutRes>}
+ * @return {!Promise<!proto.demo.LogoutRes>}
  *     The XHR Node Readable Stream
  */
-proto.user.UserPromiseClient.prototype.logout =
+proto.demo.UserPromiseClient.prototype.logout =
     function(request, metadata) {
   return new Promise((resolve, reject) => {
     this.delegateClient_.logout(
@@ -184,5 +184,5 @@ proto.user.UserPromiseClient.prototype.logout =
 };
 
 
-module.exports = proto.user;
+module.exports = proto.demo;
 

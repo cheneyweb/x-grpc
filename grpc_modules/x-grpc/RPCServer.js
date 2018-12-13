@@ -1,6 +1,6 @@
 const protoLoader = require('@grpc/proto-loader')
 const grpc = require('grpc')
-const fs = require('fs').promises
+const fs = require('fs')
 const path = require('path')
 class RPCServer {
     constructor(grpcConfig) {
@@ -14,35 +14,44 @@ class RPCServer {
     }
     // 自动加载proto和js
     run() {
-        const p0 = fs.readdir(this.protoDir)
-        const p1 = fs.readdir(this.implDir)
-        Promise.all([p0, p1]).then(res => {
-            for (let file of res[0]) {
+        const protoPackageArr = fs.readdirSync(this.protoDir)
+        const implPackageArr = fs.readdirSync(this.implDir)
+        // 遍历protos所有package
+        for (let packageName of protoPackageArr) {
+            const protoArr = fs.readdirSync(`${this.protoDir}${packageName}`)
+            this.serviceMap[packageName] = {}
+            for (let file of protoArr) {
                 const filePart = path.parse(file)
-                const packageName = filePart.name
-                const serviceName = filePart.name.charAt(0).toUpperCase() + filePart.name.slice(1)
-                const filePath = path.join(this.protoDir, file)
                 if (filePart.ext == '.proto') {
+                    const serviceName = filePart.name.charAt(0).toUpperCase() + filePart.name.slice(1)
+                    const filePath = path.join(`${this.protoDir}${packageName}`, file)
                     const packageDefinition = protoLoader.loadSync(filePath, this.loaderOptions)
-                    this.serviceMap[serviceName] = grpc.loadPackageDefinition(packageDefinition)[packageName][serviceName].service
+                    this.serviceMap[packageName][serviceName] = grpc.loadPackageDefinition(packageDefinition)[packageName][serviceName].service
                 }
             }
-            for (let file of res[1]) {
+        }
+        // 遍历impls所有package
+        for (let packageName of implPackageArr) {
+            const implArr = fs.readdirSync(`${this.implDir}${packageName}`)
+            this.functionMap[packageName] = {}
+            for (let file of implArr) {
                 const filePart = path.parse(file)
-                const serviceName = filePart.name.charAt(0).toUpperCase() + filePart.name.slice(1)
-                const filePath = path.join(this.implDir, file)
                 if (filePart.ext == '.js') {
-                    this.functionMap[serviceName] = require(filePath)
+                    const serviceName = filePart.name.charAt(0).toUpperCase() + filePart.name.slice(1)
+                    const filePath = path.join(`${this.implDir}${packageName}`, file)
+                    this.functionMap[packageName][serviceName] = require(filePath)
                 }
             }
-            this.start()
-        })
+        }
+        this.start()
     }
     // 运行rpc服务
     start() {
         const server = new grpc.Server()
-        for (let serviceName in this.serviceMap) {
-            server.addService(this.serviceMap[serviceName], this.functionMap[serviceName])
+        for (let packageName in this.serviceMap) {
+            for (let serviceName in this.serviceMap[packageName]) {
+                server.addService(this.serviceMap[packageName][serviceName], this.functionMap[packageName][serviceName])
+            }
         }
         server.bind(`${this.ip}:${this.port}`, grpc.ServerCredentials.createInsecure())
         server.start()

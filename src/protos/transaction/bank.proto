@@ -1,0 +1,18 @@
+syntax = "proto3";
+package transaction;
+
+// 服务定义
+service Bank {
+  rpc transfer (TransferReq) returns (TransferRes) {}
+}
+
+// 请求返回定义
+message TransferReq {
+  string type = 1;
+  string amount = 2;
+}
+
+message TransferRes {
+  string code = 1;
+  string res = 2;
+}
