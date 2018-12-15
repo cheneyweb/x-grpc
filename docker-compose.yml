@@ -61,6 +61,7 @@ services:
     command: agent -server -ui -client=0.0.0.0 -bootstrap-expect=1 -retry-join=n1_consul
     deploy:
       replicas: 1
+      endpoint_mode: dnsrr
       placement:
         constraints: [node.role == manager]
   #自定义RPC服务
