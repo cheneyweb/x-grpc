@@ -44,7 +44,9 @@ services:
   #服务发现
   consul-client: &consul
     image: consul:latest
-    command: "agent -retry-join consul-server-bootstrap -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}'"
+    networks:
+      - overlay
+    command: "agent -retry-join n1_consul-server-bootstrap -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}'"
     depends_on:
       - consul-server-bootstrap
     deploy:
@@ -53,11 +55,9 @@ services:
         constraints: [node.role == manager]
   consul-server:
     <<: *consul
-    command: "agent -server -retry-join consul-server-bootstrap -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}'"
+    command: "agent -server -retry-join n1_consul-server-bootstrap -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}'"
   consul-server-bootstrap:
-    image: consul
-    networks:
-      - overlay
+    <<: *consul
     ports:
       - "8500:8500"
     command: "agent -server -bootstrap-expect 3 -ui -client 0.0.0.0"
