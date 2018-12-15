@@ -44,8 +44,6 @@ services:
   #服务发现
   consul-client: &consul
     image: consul:latest
-    volumes:
-      - consul:/consul
     ports:
       - "8500:8500"
     command: "agent -retry-join server-bootstrap -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}' -ui"
