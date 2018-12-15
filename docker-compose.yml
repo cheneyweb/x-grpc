@@ -1,4 +1,4 @@
-version: '3'
+version: '3.7'
 #服务集合
 services:
   #Docker管理可视化服务
@@ -56,4 +56,3 @@ volumes:
 #网络集合
 networks:
   overlay:
-  consul:
