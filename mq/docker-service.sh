@@ -5,5 +5,8 @@ docker service create  --name mq_consul  --network amqp  -p 8500:8500  -e 'CONSU
 docker service create  --name mq_rabbitmq  --network amqp  -p 5672:5672  -p 15672:15672  -e "AUTOCLUSTER_TYPE=consul"  -e "CONSUL_HOST=mq_consul"  -e "CONSUL_PORT=8500"  -e "CONSUL_SVC=rabbitmq"  -e "CONSUL_SVC_ADDR_AUTO=true"  -e "AUTOCLUSTER_CLEANUP=true"  -e "CLEANUP_WARN_ONLY=false"  -e "RABBITMQ_ERLANG_COOKIE=secrect"  cheney/rabbitmq-consul:latest
 
 #docker service update mq_rabbitmq --replicas 2
-
 docker service scale mq_rabbitmq=2
+
+#单独部署rabbitmq服务
+docker service create  --name rabbitmq  --network amqp  -p 5672:5672  -p 15672:15672  -e "AUTOCLUSTER_TYPE=consul"  -e "CONSUL_HOST=ext.na77.org"  -e "CONSUL_PORT=8500"  -e "CONSUL_SVC=rabbitmq"  -e "CONSUL_SVC_ADDR_AUTO=true"  -e "AUTOCLUSTER_CLEANUP=true"  -e "CLEANUP_WARN_ONLY=false"  -e "RABBITMQ_ERLANG_COOKIE=secrect"  cheney/rabbitmq-consul:latest
+docker service scale rabbitmq=2

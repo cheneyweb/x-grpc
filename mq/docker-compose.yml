@@ -38,8 +38,8 @@ services:
       # - "15671:15671"
       # - "4369:4369"
       # - "5671:5671"
-    networks:
-      - amqp
+    # networks:
+    #   - amqp
     environment:
       - 'CONSUL_HOST=ext.na77.org' #consul的主机地址，swarm模式下加上stack名称作为前缀：mq_consul
       - 'CONSUL_PORT=8500'
@@ -65,6 +65,6 @@ services:
       #     delay: 20s
       #     failure_action: continue
 #网络集合
-networks:
-  amqp:
-    external: true
+# networks:
+#   amqp:
+#     external: true
