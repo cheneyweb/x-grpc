@@ -41,31 +41,6 @@ services:
       replicas: 1
       placement:
         constraints: [node.role == manager]
-  #服务发现
-  consul-client: &consul
-    image: consul:latest
-    command: "agent -retry-join consul-server-bootstrap -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}' -ui"
-    depends_on:
-      - consul-server-bootstrap
-    deploy:
-      replicas: 2
-  consul-server:
-    <<: *consul
-    depends_on:
-      - consul-server-bootstrap
-    command: "agent -server -retry-join consul-server-bootstrap -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}'"
-    deploy:
-      replicas: 2
-      placement:
-        constraints: [node.role == manager]
-  consul-server-bootstrap:
-    image: consul:latest
-    ports:
-      - "8500:8500"
-    command: "agent -server -bootstrap-expect 1 -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}'"
-    deploy:
-      placement:
-        constraints: [node.role == manager]
   #自定义RPC服务
   x-grpc:
     image:  cheney/x-grpc:latest
@@ -81,3 +56,4 @@ volumes:
 #网络集合
 networks:
   overlay:
+  consul:
