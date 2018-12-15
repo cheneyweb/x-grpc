@@ -44,21 +44,32 @@ services:
   #服务发现
   consul-client: &consul
     image: consul:latest
-    command: "agent -retry-join consul-server-bootstrap -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}'"
-    networks:
-      - overlay
+    volumes:
+      - consul:/consul
+    ports:
+      - "8500:8500"
+    command: "agent -retry-join server-bootstrap -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}' -ui"
+    depends_on:
+      - server-bootstrap
+    deploy:
+      replicas: 2
+
+  consul-server:
+    <<: *consul
+    depends_on:
+      - server-bootstrap
+    command: "agent -server -retry-join server-bootstrap -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}'"
     deploy:
       replicas: 2
       placement:
         constraints: [node.role == manager]
-  consul-server:
-    <<: *consul
-    command: "agent -server -retry-join consul-server-bootstrap -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}'"
-  consul-server-bootstrap:
-    <<: *consul
-    ports:
-      - "8500:8500"
-    command: "agent -server -bootstrap-expect 3 -ui -client 0.0.0.0"
+
+  server-bootstrap:
+    image: consul
+    command: "agent -server -bootstrap-expect 3 -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}'"
+    deploy:
+      placement:
+        constraints: [node.role == manager]
   #自定义RPC服务
   x-grpc:
     image:  cheney/x-grpc:latest
