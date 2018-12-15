@@ -62,7 +62,7 @@ services:
     image: consul:latest
     ports:
       - "8500:8500"
-    command: "agent -server -bootstrap-expect 3 -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}'"
+    command: "agent -server -bootstrap-expect 1 -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}'"
     deploy:
       placement:
         constraints: [node.role == manager]
