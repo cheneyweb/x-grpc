@@ -45,7 +45,14 @@ services:
   consul:
     image: consul:latest
     ports:
-      - "9092:8500"
+      - 8300:8300 #server rpc address
+      - 8301:8301 #CLuster Serf Addr LAN
+      - 8301:8301/udp
+      - 8302:8302 #Cluster Serf Addr WAN
+      - 8302:8302/udp
+      - 8400:8400 #cli rpc endpoint
+      - 8500:8500 #Web UI, http api
+      - 8600:53/udp #DNS服务
     networks:
       - overlay
     environment:
