@@ -44,8 +44,6 @@ services:
   #服务发现
   consul-client: &consul
     image: consul:latest
-    ports:
-      - "8500:8500"
     command: "agent -retry-join server-bootstrap -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}' -ui"
     depends_on:
       - server-bootstrap
@@ -65,6 +63,8 @@ services:
   server-bootstrap:
     image: consul
     command: "agent -server -bootstrap-expect 3 -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}'"
+    ports:
+      - "8500:8500"
     deploy:
       placement:
         constraints: [node.role == manager]
