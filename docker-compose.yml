@@ -56,6 +56,8 @@ services:
     command: "agent -server -retry-join consul-server-bootstrap -client 0.0.0.0 -bind '{{ GetInterfaceIP \"eth0\" }}'"
   consul-server-bootstrap:
     image: consul
+    networks:
+      - overlay
     ports:
       - "8500:8500"
     command: "agent -server -bootstrap-expect 3 -ui -client 0.0.0.0"
