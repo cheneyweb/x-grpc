@@ -1,0 +1,31 @@
+version: '3.7'
+services:
+  zookeeper:
+    image: wurstmeister/zookeeper:latest
+    ports:
+      - "2181:2181"
+    networks:
+      - overlay
+  kafka:
+    image: wurstmeister/kafka:latest
+    ports:
+      - "9092:9092"
+    networks:
+      - overlay
+    environment:
+      KAFKA_ADVERTISED_HOST_NAME: 192.168.1.6
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+  
+  # kafka-manager:  
+  #   image: sheepkiller/kafka-manager
+  #   ports:  
+  #     - "9000:9000"
+  #   networks:
+  #     - overlay
+  #   environment:
+  #       ZK_HOSTS: zookeeper:2181
+
+networks:
+  overlay:

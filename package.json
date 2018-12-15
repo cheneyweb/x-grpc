@@ -13,6 +13,7 @@
   "author": "cheneyxu",
   "license": "ISC",
   "dependencies": {
+    "amqplib": "^0.5.3",
     "config": "^3.0.0",
     "x-grpc": "^0.9.0"
   }
