@@ -3,9 +3,8 @@ services:
   #服务发现
   consul:
     image: consul:latest
-    # ports:
-    #   - target: 8500
-    #     published: 8500
+    ports:
+      - "9092:8500"
       # - "8400:8400"
       # - "8600:53" #DNS port
     networks:
