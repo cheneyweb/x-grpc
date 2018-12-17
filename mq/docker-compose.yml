@@ -51,7 +51,7 @@ services:
       #   aliases:
       #     - amqp.mq.cluster
     environment:
-      - 'CONSUL_HOST=amqp.cluster' #consul的集群网络地址
+      - 'CONSUL_HOST=mq_consul' #consul的集群网络地址
       - 'CONSUL_PORT=8500'
       - 'CONSUL_SVC=rabbitmq'
       - 'CONSUL_SVC_ADDR_AUTO=true'
