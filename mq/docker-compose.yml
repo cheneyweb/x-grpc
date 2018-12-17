@@ -10,11 +10,11 @@ services:
     networks:
       amqp:
         aliases:
-          - amqp
+          - amqp.cluster
     environment:
       - 'CONSUL_BIND_INTERFACE=eth0'
       - 'CONSUL_LOCAL_CONFIG={"skip_leave_on_interrupt": true}'
-    command: agent -server -ui -client=0.0.0.0 -bootstrap-expect=1 -retry-join=amqp
+    command: agent -server -ui -client=0.0.0.0 -bootstrap-expect=1 -retry-join=amqp.cluster
     deploy:
       endpoint_mode: dnsrr
       replicas: 2

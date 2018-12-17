@@ -12,3 +12,5 @@ docker service scale mq_rabbitmq=2
 
 #进入容器查看IP
 # docker inspect <container id> | grep "IPAddress"
+
+docker service create --name mq_rabbitmq --network amqp -p 9093:15672 -p 5672:5672 -e "AUTOCLUSTER_TYPE=consul" -e "CONSUL_HOST=amqp.cluster" -e "CONSUL_PORT=8500" -e "CONSUL_SVC=rabbitmq" -e "CONSUL_SVC_ADDR_AUTO=true" -e "AUTOCLUSTER_CLEANUP=true" -e "CLEANUP_WARN_ONLY=false" -e "RABBITMQ_ERLANG_COOKIE=secrect" cheney/rabbitmq-consul:latest
