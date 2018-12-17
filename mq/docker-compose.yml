@@ -33,7 +33,9 @@ services:
   rabbitmq:
     image: cheney/rabbitmq-consul:latest
     ports:
-      - "9093:15672"
+      - target: 15672
+        published: 9093
+        mode: host
       # - "5672:5672"
       # - "25672:25672"
       # - "15671:15671"
@@ -41,6 +43,8 @@ services:
       # - "5671:5671"
     networks:
       amqp:
+        aliases:
+          - amqp.mq.cluster
     environment:
       - 'CONSUL_HOST=amqp.cluster' #consul的集群网络地址
       - 'CONSUL_PORT=8500'
@@ -55,7 +59,8 @@ services:
       # - 'RABBITMQ_DEFAULT_USER=admin'
       # - 'RABBITMQ_DEFAULT_PASS=123456'
     deploy:
-      replicas: 1
+      endpoint_mode: dnsrr
+      replicas: 2
       # restart_policy:
       #     condition: on-failure
       #     delay: 15s
