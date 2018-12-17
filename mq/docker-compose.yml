@@ -11,8 +11,8 @@ services:
       amqp:
         aliases:
           - amqp.cluster
-    volumes:
-      - consul:/consul
+    # volumes:
+    #   - consul:/consul
     environment:
       - 'CONSUL_BIND_INTERFACE=eth0'
       - 'CONSUL_LOCAL_CONFIG={"skip_leave_on_interrupt": true}'
@@ -68,8 +68,8 @@ services:
   #     #     delay: 20s
   #     #     failure_action: continue
 #卷集合
-volumes:
-  consul:
+# volumes:
+#   consul:
 #网络集合
 networks:
   amqp:
