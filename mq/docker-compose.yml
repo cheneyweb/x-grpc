@@ -1,47 +1,45 @@
 version: '3.7'
 services:
   #服务发现
-  # consul:
-  #   image: consul:latest
-  #     # labels: [app=amqp-consul]
-  #   ports:
-  #     # - "8400:8400"
-  #     - "8500:8500"
-  #     # - "8600:53" #DNS port
-  #   networks:
-  #     - amqp
-  #   environment:
-  #     - 'CONSUL_BIND_INTERFACE=eth0'
-  #     - 'CONSUL_LOCAL_CONFIG={"skip_leave_on_interrupt": true}'
-  #   command: agent -server -ui -client=0.0.0.0 -bootstrap-expect=1 -retry-join=mq_consul
-  #   deploy:
-  #     replicas: 1
-  #     placement:
-  #       constraints: [node.role == manager]
-  #       # restart_policy:
-  #       #     condition: on-failure
-  #       #     delay: 5s
-  #       #     max_attempts: 3
-  #       #     window: 120s
-  #       # update_config:
-  #       #     parallelism: 1
-  #       #     delay: 10s
-  #       #     failure_action: continue
+  consul:
+    image: consul:latest
+    ports:
+      - "9092:8500"
+      # - "8400:8400"
+      # - "8600:53" #DNS port
+    networks:
+      - amqp
+    environment:
+      - 'CONSUL_BIND_INTERFACE=eth0'
+      - 'CONSUL_LOCAL_CONFIG={"skip_leave_on_interrupt": true}'
+    command: agent -server -ui -client=0.0.0.0 -bootstrap-expect=1 -retry-join=mq_consul
+    deploy:
+      replicas: 1
+      # placement:
+      #   constraints: [node.role == manager]
+        # restart_policy:
+        #     condition: on-failure
+        #     delay: 5s
+        #     max_attempts: 3
+        #     window: 120s
+        # update_config:
+        #     parallelism: 1
+        #     delay: 10s
+        #     failure_action: continue
   #消息队列服务
   rabbitmq:
     image: cheney/rabbitmq-consul:latest
-      # labels: [app=amqp-rabbitmq]
     ports:
+      - "9093:15672"
       - "5672:5672"
-      - "15672:15672"
       # - "25672:25672"
       # - "15671:15671"
       # - "4369:4369"
       # - "5671:5671"
-    # networks:
-    #   - amqp
+    networks:
+      - amqp
     environment:
-      - 'CONSUL_HOST=ext.na77.org' #consul的主机地址，swarm模式下加上stack名称作为前缀：mq_consul
+      - 'CONSUL_HOST=mq_consul' #consul的主机地址，swarm模式下加上stack名称作为前缀：mq_consul
       - 'CONSUL_PORT=8500'
       - 'CONSUL_SVC=rabbitmq'
       - 'CONSUL_SVC_ADDR_AUTO=true'
@@ -65,6 +63,6 @@ services:
       #     delay: 20s
       #     failure_action: continue
 #网络集合
-# networks:
-#   amqp:
-#     external: true
+networks:
+  amqp:
+    external: true
