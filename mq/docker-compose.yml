@@ -4,9 +4,9 @@ services:
   consul:
     image: consul:latest
     ports:
-      - "9092:8500"
-      # - "8400:8400"
-      # - "8600:53" #DNS port
+      - target: 8500
+        published: 8500
+        mode: host
     networks:
       amqp:
         aliases:
