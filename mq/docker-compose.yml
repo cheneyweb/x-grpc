@@ -55,7 +55,7 @@ services:
       # - 'RABBITMQ_DEFAULT_USER=admin'
       # - 'RABBITMQ_DEFAULT_PASS=123456'
     deploy:
-      replicas: 2
+      replicas: 1
       # restart_policy:
       #     condition: on-failure
       #     delay: 15s
