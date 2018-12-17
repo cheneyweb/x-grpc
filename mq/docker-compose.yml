@@ -7,18 +7,6 @@ services:
       - target: 8500
         published: 9092
         mode: host
-      - target: 8300
-        published: 8300
-        mode: host
-      - target: 8301
-        published: 8301
-        mode: host
-      - target: 8302
-        published: 8302
-        mode: host
-      - target: 8600
-        published: 8600
-        mode: host
     networks:
       amqp:
         aliases:
@@ -56,8 +44,8 @@ services:
       # - "5671:5671"
     networks:
       amqp:
-        # aliases:
-        #   - amqp.mq.cluster
+        aliases:
+          - amqp.mq.cluster
     environment:
       - 'CONSUL_HOST=amqp.cluster' #consul的集群网络地址
       - 'CONSUL_PORT=8500'
@@ -73,7 +61,7 @@ services:
       # - 'RABBITMQ_DEFAULT_PASS=123456'
     deploy:
       endpoint_mode: dnsrr
-      replicas: 1
+      replicas: 2
       # restart_policy:
       #     condition: on-failure
       #     delay: 15s
