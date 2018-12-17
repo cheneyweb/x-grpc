@@ -44,10 +44,10 @@ services:
       # - "5671:5671"
     networks:
       amqp:
-        aliases:
-          - amqp
+        # aliases:
+        #   - amqp
     environment:
-      - 'CONSUL_HOST=mq_consul' #consul的主机地址，swarm模式下加上stack名称作为前缀：mq_consul
+      - 'CONSUL_HOST=amqp' #consul的主机地址，swarm模式下加上stack名称作为前缀：mq_consul
       - 'CONSUL_PORT=8500'
       - 'CONSUL_SVC=rabbitmq'
       - 'CONSUL_SVC_ADDR_AUTO=true'
@@ -60,7 +60,7 @@ services:
       # - 'RABBITMQ_DEFAULT_USER=admin'
       # - 'RABBITMQ_DEFAULT_PASS=123456'
     deploy:
-      endpoint_mode: dnsrr
+      # endpoint_mode: dnsrr
       replicas: 2
       # restart_policy:
       #     condition: on-failure
