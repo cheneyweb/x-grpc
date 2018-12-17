@@ -4,7 +4,8 @@ services:
   consul:
     image: consul:latest
     ports:
-      - "9092:8500"
+      - target: 8500
+        published: 8500
       # - "8400:8400"
       # - "8600:53" #DNS port
     networks:
