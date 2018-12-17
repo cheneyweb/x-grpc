@@ -30,41 +30,41 @@ services:
         #     delay: 10s
         #     failure_action: continue
   #消息队列服务
-  # rabbitmq:
-  #   image: cheney/rabbitmq-consul:latest
-  #   ports:
-  #     - "9093:15672"
-  #     - "5672:5672"
-  #     # - "25672:25672"
-  #     # - "15671:15671"
-  #     # - "4369:4369"
-  #     # - "5671:5671"
-  #   networks:
-  #     - amqp
-  #   environment:
-  #     - 'CONSUL_HOST=mq_consul' #consul的主机地址，swarm模式下加上stack名称作为前缀：mq_consul
-  #     - 'CONSUL_PORT=8500'
-  #     - 'CONSUL_SVC=rabbitmq'
-  #     - 'CONSUL_SVC_ADDR_AUTO=true'
-  #     - 'CLEANUP_WARN_ONLY=false'
-  #     - 'AUTOCLUSTER_TYPE=consul'
-  #     - 'AUTOCLUSTER_CLEANUP=true'
-  #     - 'RABBIMQ_ERLANG_COOKIE=secrect'
-  #     - 'RABBITMQ_USE_LONGNAME=true'
-  #     # - 'RABBITMQ_DEFAULT_VHOST=/'
-  #     # - 'RABBITMQ_DEFAULT_USER=admin'
-  #     # - 'RABBITMQ_DEFAULT_PASS=123456'
-  #   deploy:
-  #     replicas: 1
-  #     # restart_policy:
-  #     #     condition: on-failure
-  #     #     delay: 15s
-  #     #     max_attempts: 3
-  #     #     window: 120s
-  #     # update_config:
-  #     #     parallelism: 2
-  #     #     delay: 20s
-  #     #     failure_action: continue
+  rabbitmq:
+    image: cheney/rabbitmq-consul:latest
+    ports:
+      - "9093:15672"
+      - "5672:5672"
+      # - "25672:25672"
+      # - "15671:15671"
+      # - "4369:4369"
+      # - "5671:5671"
+    networks:
+      - amqp
+    environment:
+      - 'CONSUL_HOST=mq_consul' #consul的主机地址，swarm模式下加上stack名称作为前缀：mq_consul
+      - 'CONSUL_PORT=8500'
+      - 'CONSUL_SVC=rabbitmq'
+      - 'CONSUL_SVC_ADDR_AUTO=true'
+      - 'CLEANUP_WARN_ONLY=false'
+      - 'AUTOCLUSTER_TYPE=consul'
+      - 'AUTOCLUSTER_CLEANUP=true'
+      - 'RABBIMQ_ERLANG_COOKIE=secrect'
+      - 'RABBITMQ_USE_LONGNAME=true'
+      # - 'RABBITMQ_DEFAULT_VHOST=/'
+      # - 'RABBITMQ_DEFAULT_USER=admin'
+      # - 'RABBITMQ_DEFAULT_PASS=123456'
+    deploy:
+      replicas: 2
+      # restart_policy:
+      #     condition: on-failure
+      #     delay: 15s
+      #     max_attempts: 3
+      #     window: 120s
+      # update_config:
+      #     parallelism: 2
+      #     delay: 20s
+      #     failure_action: continue
 #网络集合
 networks:
   amqp:
