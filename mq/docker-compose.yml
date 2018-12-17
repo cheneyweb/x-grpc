@@ -60,7 +60,7 @@ services:
       # - 'RABBITMQ_DEFAULT_PASS=123456'
     deploy:
       endpoint_mode: dnsrr
-      replicas: 2
+      replicas: 1
       # restart_policy:
       #     condition: on-failure
       #     delay: 15s
