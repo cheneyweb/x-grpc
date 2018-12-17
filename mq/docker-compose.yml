@@ -5,7 +5,7 @@ services:
     image: consul:latest
     ports:
       - target: 8500
-        published: 8500
+        published: 9092
         mode: host
     networks:
       amqp:
@@ -19,7 +19,7 @@ services:
     command: agent -server -ui -client=0.0.0.0 -bootstrap-expect=1 -retry-join=amqp.cluster
     deploy:
       endpoint_mode: dnsrr
-      replicas: 1
+      replicas: 2
       # placement:
       #   constraints: [node.role == manager]
         # restart_policy:
