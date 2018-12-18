@@ -7,6 +7,6 @@ services:
       - "15672:15672"
     networks:
         - overlay
-
+#网络集合
 networks:
   overlay:
