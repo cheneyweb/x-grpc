@@ -6,7 +6,7 @@ async function main() {
     "port": 50051,
     "protosDir": "/src/protos/",
     "implsDir": "/src/impls/",
-    "serverAddress": "ext.na77.org"
+    "serverAddress": "localhost"
   }).connect()
   const rpc2 = await new RPCClient({
     "port": 50051,
