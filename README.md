@@ -26,7 +26,7 @@ const rpc = await new RPCClient(config.grpc).connect()
 await rpc.invoke('demo.User.login', { username: 'cheney', password: '123456' }) // package.Service.method
 ```
 
->WEB使用说明
+>WEB使用说明（需要envoy代理）
 ```javascript
 http://{staticserver}/x-grpc/web/index.html
 ```
@@ -37,7 +37,7 @@ http://{staticserver}/x-grpc/web/index.html
 
 >单点WEB服务启动
 
-- 修改envoy/envoy.yaml中的n1_x-grpc为x-grpc
+- 修改envoy/envoy.yaml中的n1_x-grpc为x-grpc，然后重新构建镜像
 
 - npm run compose-up
 
