@@ -3,6 +3,16 @@
 
 NODE分布式服务框架，精巧迷你
 
+>配置说明（在/config/default.json中，有如下配置）
+```javascript
+"grpc": {
+        "port": 50051,                  // 服务端口
+        "protosDir": "/src/protos/",    // 接口目录，放置proto接口定义文件
+        "implsDir": "/src/impls/",      // 实现目录，放置js接口实现文件
+        "serverAddress": "localhost"    // 服务端的地址，客户端连接时使用
+    }
+```
+
 >服务端使用说明
 ```javascript
 const RPCServer = require('x-grpc').RPCServer
@@ -21,21 +31,11 @@ await rpc.invoke('demo.User.login', { username: 'cheney', password: '123456' }) 
 http://{staticserver}/x-grpc/web/index.html
 ```
 
->配置说明（在/config/default.json中，有如下配置）
-```javascript
-"grpc": {
-        "port": 50051,                  // 服务端口
-        "protosDir": "/src/protos/",    // 接口目录，放置proto接口定义文件
-        "implsDir": "/src/impls/",      // 实现目录，放置js接口实现文件
-        "serverAddress": "localhost"    // 服务端的地址，客户端连接时使用
-    }
-```
-
 >单点服务启动
 
 - npm run start
 
->WEB服务启动
+>单点WEB服务启动
 
 - 修改envoy/envoy.yaml中的n1_x-grpc为x-grpc
 

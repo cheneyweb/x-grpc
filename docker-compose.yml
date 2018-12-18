@@ -43,7 +43,7 @@ services:
         constraints: [node.role == manager]
   #自定义RPC服务
   x-grpc:
-    image:  cheney/x-grpc:latest
+    image: cheney/x-grpc:latest
     ports:
       - "50051:50051"
     networks:
