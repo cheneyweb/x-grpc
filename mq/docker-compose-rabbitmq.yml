@@ -6,7 +6,8 @@ services:
       - "5672:5672"
       - "15672:15672"
     networks:
-        - overlay
+      - x-grpc_overlay
 #网络集合
 networks:
-  overlay:
+  x-grpc_overlay:
+    external: true
