@@ -35,6 +35,7 @@ services:
     ports:
       - '9091:9901'
       - '10000:10000'
+      - '10001:10001'
     networks:
       - overlay
     deploy:

@@ -36,6 +36,19 @@ static_resources:
           - name: envoy.grpc_web
           - name: envoy.cors
           - name: envoy.router
+  - name: listener_1
+    address:
+      socket_address: { address: 0.0.0.0, port_value: 10001 }
+    filter_chains:
+    - filters:
+      - name: envoy.tcp_proxy
+        config:
+          stat_prefix: ingress_tcp
+          cluster: rabbitmq_server
+          access_log:
+            - name: envoy.file_access_log
+              config:
+                path: /dev/stdout
   clusters:
   - name: grpc_service
     connect_timeout: 0.25s
@@ -43,3 +56,8 @@ static_resources:
     http2_protocol_options: {}
     lb_policy: round_robin
     hosts: [{ socket_address: { address: n1_x-grpc, port_value: 50051 }}]
+  - name: rabbitmq_server
+    connect_timeout: 0.25s
+    type: logical_dns
+    lb_policy: round_robin
+    hosts: [{ socket_address: { address: mq_rabbitmq, port_value: 5672 }}]
