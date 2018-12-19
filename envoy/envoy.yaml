@@ -58,6 +58,6 @@ static_resources:
     hosts: [{ socket_address: { address: n1_x-grpc, port_value: 50051 }}]
   - name: rabbitmq_server
     connect_timeout: 0.25s
-    type: strict_dns
+    type: logical_dns
     lb_policy: round_robin
     hosts: [{ socket_address: { address: n1_rabbitmq, port_value: 5672 }}]
