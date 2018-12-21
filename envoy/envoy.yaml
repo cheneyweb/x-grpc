@@ -36,7 +36,7 @@ static_resources:
               routes:
               - match: { prefix: "/" }
                 route:
-                  cluster: grpc_service
+                  cluster: cluster_x-grpc
                   max_grpc_timeout: 0s
               cors:
                 allow_origin:
@@ -58,7 +58,7 @@ static_resources:
       - name: envoy.tcp_proxy
         config:
           stat_prefix: ingress_tcp
-          cluster: rabbitmq_server
+          cluster: cluster_rabbitmq
           access_log:
             - name: envoy.file_access_log
               config:
