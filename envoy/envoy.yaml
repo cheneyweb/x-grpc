@@ -3,9 +3,23 @@ admin:
   address:
     socket_address: { address: 0.0.0.0, port_value: 9901 }
 
+# dynamic_resources:
+#   lds_config:
+#     api_config_source:
+#       api_type: GRPC
+#       grpc_services:
+#         envoy_grpc:
+#           cluster_name: xds_cluster
+#   cds_config:
+#     api_config_source:
+#       api_type: GRPC
+#       grpc_services:
+#         envoy_grpc:
+#           cluster_name: xds_cluster
+
 static_resources:
   listeners:
-  - name: listener_0
+  - name: listener_grpcweb
     address:
       socket_address: { address: 0.0.0.0, port_value: 10000 }
     filter_chains:
@@ -36,7 +50,7 @@ static_resources:
           - name: envoy.grpc_web
           - name: envoy.cors
           - name: envoy.router
-  - name: listener_1
+  - name: listener_rabbitmq
     address:
       socket_address: { address: 0.0.0.0, port_value: 10001 }
     filter_chains:
@@ -61,3 +75,17 @@ static_resources:
     type: logical_dns
     lb_policy: round_robin
     hosts: [{ socket_address: { address: n1_rabbitmq, port_value: 5672 }}]
+  # - name: xds_cluster
+  #   connect_timeout: 0.25s
+  #   type: STATIC
+  #   lb_policy: ROUND_ROBIN
+  #   http2_protocol_options: {}
+  #   load_assignment:
+  #     cluster_name: xds_cluster
+  #     endpoints:
+  #     - lb_endpoints:
+  #       - endpoint:
+  #           address:
+  #             socket_address:
+  #               address: 127.0.0.1
+  #               port_value: 50051

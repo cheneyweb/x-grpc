@@ -14,11 +14,11 @@ async function main() {
     "implsDir": "/src/impls/",
     "serverAddress": "localhost"
   }).connect()
-  await transaction(rpc1,rpc2)
+  await transaction(rpc1, rpc2)
 }
 
 // 事务函数
-async function transaction(rpc1,rpc2) {
+async function transaction(rpc1, rpc2) {
   try {
     // 方法1
     let params = { username: 'cheney', password: '123456' }
