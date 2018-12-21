@@ -8,7 +8,7 @@
     "compose-up": "docker-compose -f docker-compose.yml up -d --build",
     "compose-down": "docker-compose -f docker-compose.yml down",
     "stack-deploy": "docker stack deploy --prune -c docker-compose.yml n1",
-    "stack-rm": "docker stack rm n1"
+    "stack-rm": "docker stack rm n1 && docker network rm n1_overlay"
   },
   "author": "cheneyxu",
   "license": "ISC",
