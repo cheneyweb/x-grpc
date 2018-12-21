@@ -37,8 +37,6 @@ http://{staticserver}/x-grpc/web/index.html
 
 >单点WEB服务启动
 
-- 修改envoy/envoy.yaml中的n1_x-grpc为x-grpc，然后重新构建镜像
-
 - npm run compose-up
 
 >集群部署
