@@ -64,17 +64,17 @@ static_resources:
               config:
                 path: /dev/stdout
   clusters:
-  - name: grpc_service
+  - name: cluster_x-grpc
     connect_timeout: 0.25s
     type: logical_dns
     http2_protocol_options: {}
     lb_policy: round_robin
-    hosts: [{ socket_address: { address: n1_x-grpc, port_value: 50051 }}]
-  - name: rabbitmq_server
+    hosts: [{ socket_address: { address: x-grpc, port_value: 50051 }}]
+  - name: cluster_rabbitmq
     connect_timeout: 0.25s
     type: logical_dns
     lb_policy: round_robin
-    hosts: [{ socket_address: { address: n1_rabbitmq, port_value: 5672 }}]
+    hosts: [{ socket_address: { address: rabbitmq, port_value: 5672 }}]
   # - name: xds_cluster
   #   connect_timeout: 0.25s
   #   type: STATIC
