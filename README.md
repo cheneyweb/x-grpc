@@ -5,25 +5,38 @@ NODE分布式服务框架，精巧迷你
 
 >配置说明（在/config/default.json中，有如下配置）
 ```javascript
-"grpc": {
-        "port": 50051,                  // 服务端口
-        "protosDir": "/src/protos/",    // 接口目录，放置proto接口定义文件
-        "implsDir": "/src/impls/",      // 实现目录，放置js接口实现文件
-        "serverAddress": "localhost"    // 服务端的地址，客户端连接时使用
+grpc: {
+        port: 50051,                  // 服务端口
+        protosDir: "/src/protos/",    // 接口目录，放置proto接口定义文件
+        implsDir: "/src/impls/",      // 实现目录，放置js接口实现文件
+        serverAddress: "localhost"    // 服务端的地址，客户端连接时使用
     }
 ```
 
 >服务端使用说明
 ```javascript
+// 导入服务端
 const RPCServer = require('x-grpc').RPCServer
-new RPCServer(config.grpc).run()
+// 实例化
+const rpcServer = new RPCServer(config.grpc)
+// 中间件拦截器使用
+rpcServer.use()
+// 启动监听
+rpcServer.listen()
 ```
 
 >客户端使用说明
 ```javascript
+// 导入客户端
 const RPCClient = require('x-grpc').RPCClient
-const rpc = await new RPCClient(config.grpc).connect()
-await rpc.invoke('demo.User.login', { username: 'cheney', password: '123456' }) // package.Service.method
+// 实例化
+const rpc = new RPCClient(config.grpc)
+// 中间件拦截器使用
+rpc.use()
+// 连接远程服务
+await rpc.connect()
+// 远程调用（package.Service.method）
+await rpc.invoke('demo.User.login', { username: 'cheney', password: '123456' }, optionMeta:{key:value}?)
 ```
 
 >WEB使用说明（需要envoy代理）

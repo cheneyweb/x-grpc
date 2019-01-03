@@ -1,0 +1,1 @@
+lsof -PiTCP -sTCP:LISTEN

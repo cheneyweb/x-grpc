@@ -9,6 +9,11 @@ class RPCClient {
     this.protoDir = `${__dirname}/../..${grpcConfig.protosDir}`
     this.loaderOptions = grpcConfig.loaderOptions
     this.serviceMap = {}
+    this.interceptors = []
+  }
+  // 加载拦截器中间件
+  use(interceptor) {
+    interceptor && this.interceptors.push(interceptor)
   }
   // 自动加载proto并且connect
   connect() {
@@ -25,7 +30,7 @@ class RPCClient {
             const filePath = path.join(`${this.protoDir}${packageName}`, file)
             const packageDefinition = protoLoader.loadSync(filePath, this.loaderOptions)
             const Service = grpc.loadPackageDefinition(packageDefinition)[packageName][serviceName]
-            this.serviceMap[packageName][serviceName] = new Service(`${this.ip}:${this.port}`, grpc.credentials.createInsecure())
+            this.serviceMap[packageName][serviceName] = new Service(`${this.ip}:${this.port}`, grpc.credentials.createInsecure(), { interceptors: this.interceptors })
           }
         }
       }
@@ -33,11 +38,16 @@ class RPCClient {
     })
   }
   // 远程调用
-  invoke(serviceMethod, params = {}) {
+  invoke(serviceMethod, params = {}, meta = {}) {
+    // 设置元数据
+    const metadata = new grpc.Metadata()
+    for (let key in meta) {
+      metadata.add(key, meta[key])
+    }
     return new Promise((resolve, reject) => {
       const [packageName, serviceName, methodname] = serviceMethod.split('.')
       if (this.serviceMap[packageName] && this.serviceMap[packageName][serviceName] && this.serviceMap[packageName][serviceName][methodname]) {
-        this.serviceMap[packageName][serviceName][methodname](params, (err, res) => {
+        this.serviceMap[packageName][serviceName][methodname](params, metadata, (err, res) => {
           err ? reject(err) : resolve(res)
         })
       } else {

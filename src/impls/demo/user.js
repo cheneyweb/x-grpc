@@ -5,6 +5,8 @@ module.exports = {
   // 单服务
   login(call, cb) {
     console.log(`${Date.now()}${JSON.stringify(call.request)}`)
+    // console.log(call.metadata.get('nodetracing')[0])
+    // console.log(call.metadata.get('timestamp')[0])
     cb(null, { res: `${call.request.username} 登录成功` })
   },
   // 多服务

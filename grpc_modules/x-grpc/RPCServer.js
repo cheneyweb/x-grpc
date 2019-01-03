@@ -2,6 +2,8 @@ const protoLoader = require('@grpc/proto-loader')
 const grpc = require('grpc')
 const fs = require('fs')
 const path = require('path')
+// 由于grpc的Server暂不支持拦截器，故引入第三方代理拦截器
+const interceptors = require('@echo-health/grpc-interceptors')
 class RPCServer {
     constructor(grpcConfig) {
         this.ip = grpcConfig.ip || '0.0.0.0'
@@ -11,9 +13,11 @@ class RPCServer {
         this.loaderOptions = grpcConfig.loaderOptions
         this.serviceMap = {}
         this.functionMap = {}
+        this.server = {}
+        this._load()
     }
     // 自动加载proto和js
-    run() {
+    _load() {
         const protoPackageArr = fs.readdirSync(this.protoDir)
         const implPackageArr = fs.readdirSync(this.implDir)
         // 遍历protos所有package
@@ -43,18 +47,28 @@ class RPCServer {
                 }
             }
         }
-        this.start()
+        this._bind()
     }
-    // 运行rpc服务
-    start() {
-        const server = new grpc.Server()
+    // 绑定服务
+    _bind() {
+        this.server = new grpc.Server()
+        // 第三方代理拦截器
+        this.server = interceptors.serverProxy(this.server)
+        // 第三方代理拦截器
         for (let packageName in this.serviceMap) {
             for (let serviceName in this.serviceMap[packageName]) {
-                server.addService(this.serviceMap[packageName][serviceName], this.functionMap[packageName][serviceName])
+                this.server.addService(this.serviceMap[packageName][serviceName], this.functionMap[packageName][serviceName])
             }
         }
-        server.bind(`${this.ip}:${this.port}`, grpc.ServerCredentials.createInsecure())
-        server.start()
+        this.server.bind(`${this.ip}:${this.port}`, grpc.ServerCredentials.createInsecure())
+    }
+    // 加载拦截器中间件
+    use(middleware) {
+        this.server.use(middleware)
+    }
+    // 启动监听
+    listen() {
+        this.server.start()
     }
 }
 
