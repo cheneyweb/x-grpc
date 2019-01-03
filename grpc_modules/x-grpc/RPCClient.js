@@ -6,7 +6,11 @@ class RPCClient {
   constructor(grpcConfig) {
     this.ip = grpcConfig.serverAddress || 'localhost'
     this.port = grpcConfig.port
-    this.protoDir = `${__dirname}/../..${grpcConfig.protosDir}`
+    if (grpcConfig.originalPath) {
+      this.protoDir = `${grpcConfig.protosDir}`
+    } else {
+      this.protoDir = `${__dirname}/../..${grpcConfig.protosDir}`
+    }
     this.loaderOptions = grpcConfig.loaderOptions
     this.serviceMap = {}
     this.interceptors = []
