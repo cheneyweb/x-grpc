@@ -1,6 +1,6 @@
 {
   "name": "x-grpc",
-  "version": "0.9.2",
+  "version": "0.9.3",
   "description": "NODE分布式服务框架，精巧迷你",
   "main": "index.js",
   "scripts": {
