@@ -20,7 +20,11 @@ const RPCServer = require('x-grpc').RPCServer
 // 实例化
 const rpcServer = new RPCServer(config.grpc)
 // 中间件拦截器使用
-rpcServer.use()
+rpcServer.use((ctx, next) => {
+    console.log(`before：${ctx.call.metadata}`)
+    await next()
+    console.log(`after：${ctx.call.metadata}`)
+}
 // 启动监听
 rpcServer.listen()
 ```
@@ -29,10 +33,19 @@ rpcServer.listen()
 ```javascript
 // 导入客户端
 const RPCClient = require('x-grpc').RPCClient
+const InterceptingCall = require('x-grpc').grpc.InterceptingCall
 // 实例化
 const rpc = new RPCClient(config.grpc)
 // 中间件拦截器使用
-rpc.use()
+rpc.use((options, nextCall) => {
+  return new InterceptingCall(nextCall(options), {
+    start: function (metadata, listener, next) {
+      console.log(options.method_definition.path)
+      metadata.add('timestamp', Date.now().toString())
+      next(metadata, listener)
+    }
+  })
+}
 // 连接远程服务
 await rpc.connect()
 // 远程调用（package.Service.method）

@@ -32,7 +32,7 @@ async function runInvoke(rpc) {
 function interceptor(options, nextCall) {
   return new InterceptingCall(nextCall(options), {
     start: function (metadata, listener, next) {
-      // console.log(options.method_definition.path)
+      console.log(options.method_definition.path)
       metadata.add('timestamp', Date.now().toString())
       next(metadata, listener)
     }
