@@ -93,6 +93,5 @@ http://{staticserver}/x-grpc/web/index.html
     ├── grpc                // 放置通过protoc.sh生成的grpc-web代码
     ├── index.html
     ├── node_modules
-    ├── package-lock.json
     └── package.json
 ```
