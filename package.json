@@ -16,6 +16,6 @@
   "dependencies": {
     "amqplib": "^0.5.3",
     "config": "^3.0.1",
-    "x-grpc": "^0.9.4"
+    "x-grpc": "^0.9.5"
   }
 }

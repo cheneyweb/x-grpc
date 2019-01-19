@@ -1,6 +1,6 @@
 {
   "name": "x-grpc",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "NODE分布式服务框架，精巧迷你",
   "main": "index.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@echo-health/grpc-interceptors": "0.0.12",
-    "@grpc/proto-loader": "^0.3.0",
+    "@grpc/proto-loader": "^0.4.0",
     "grpc": "^1.18.0"
   }
 }
