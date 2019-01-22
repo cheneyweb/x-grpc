@@ -9,7 +9,8 @@
     "compose-down": "docker-compose -f docker-compose.yml down",
     "stack-network": "docker network create n1_overlay --driver overlay",
     "stack-deploy": "./sh/docker-service.sh && docker stack deploy --prune -c docker-compose.yml n1",
-    "stack-rm": "docker stack rm n1 && docker service rm rabbitmq && docker network rm n1_overlay && ./sh/docker-prune.sh"
+    "stack-rm": "docker stack rm n1 && docker service rm rabbitmq && docker network rm n1_overlay",
+    "stack-prune": "./sh/docker-prune.sh"
   },
   "author": "cheneyxu",
   "license": "ISC",
