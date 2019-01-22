@@ -8,7 +8,7 @@
     "compose-up": "docker-compose -f docker-compose.yml up -d --build",
     "compose-down": "docker-compose -f docker-compose.yml down",
     "stack-network": "docker network create n1_overlay --driver overlay",
-    "stack-deploy": "docker stack deploy --prune -c docker-compose.yml n1",
+    "stack-deploy": "./sh/docker-service.sh && docker stack deploy --prune -c docker-compose.yml n1",
     "stack-rm": "docker stack rm n1 && docker service rm rabbitmq && docker network rm n1_overlay"
   },
   "author": "cheneyxu",
