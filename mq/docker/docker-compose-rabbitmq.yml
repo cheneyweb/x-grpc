@@ -5,9 +5,9 @@ services:
     ports:
       - "5672:5672"
       - "15672:15672"
-    networks:
-      - x-grpc_overlay
+    # networks:
+    #   - x-grpc_overlay
 #网络集合
-networks:
-  x-grpc_overlay:
-    external: true
+# networks:
+#   x-grpc_overlay:
+#     external: true

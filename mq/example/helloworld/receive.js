@@ -1,5 +1,5 @@
 const amqp = require('amqplib')
-
+const consts = require('../consts.js')
 async function main() {
     const conn = await amqp.connect(`amqp://${consts.HOST}`)
     const ch = await conn.createChannel()
