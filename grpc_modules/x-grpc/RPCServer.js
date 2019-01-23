@@ -30,7 +30,10 @@ class RPCServer {
                     const serviceName = filePart.name.charAt(0).toUpperCase() + filePart.name.slice(1)
                     const filePath = path.join(`${this.protoDir}${packageName}`, file)
                     const packageDefinition = protoLoader.loadSync(filePath, this.loaderOptions)
-                    this.serviceMap[packageName][serviceName] = grpc.loadPackageDefinition(packageDefinition)[packageName][serviceName].service
+                    let service = grpc.loadPackageDefinition(packageDefinition)[packageName][serviceName].service
+                    if (service) {
+                        this.serviceMap[packageName][serviceName] = service
+                    }
                 }
             }
         }

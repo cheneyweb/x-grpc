@@ -13,16 +13,20 @@ async function init() {
 async function runInvoke(rpc) {
   try {
     // 方法1
-    let params = { username: 'cheney', password: '123456' }
-    let meta = { nodetracing: 'testmeta' }
-    let result = await rpc.invoke('demo.User.login', params, meta)
-    console.info('登录信息')
-    console.info(result)
+    // let params = { username: 'cheney', password: '123456' }
+    // let meta = { nodetracing: 'testmeta' }
+    // let result = await rpc.invoke('demo.User.login', params, meta)
+    // console.info('登录信息')
+    // console.info(result)
     // 方法2
     // params = { username: 'cheney' }
     // result = await rpc.invoke('demo.User.logout', params)
     // console.info('登出信息')
     // console.info(result)
+    // 方法3
+    params = { username: 'cheney', child: { extFiled: ['s1'], extProp: 's2' }, outside: { outFiled: ['o1'], outProp: 'o2' } }
+    result = await rpc.invoke('advanced.Nest.test', params)
+    console.info(result)
   } catch (err) {
     console.error(err)
   }

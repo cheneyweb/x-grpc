@@ -1,0 +1,23 @@
+syntax = "proto3";
+package advanced;
+
+import "./child.proto";
+import "../common/outside.proto";
+
+// 服务定义
+service Nest {
+  rpc test (NestReq) returns (NestRes) {}
+}
+
+// 请求返回定义
+message NestReq {
+  string username = 1;
+  string password = 2;
+  Child child = 3;
+  Outside outside = 4;
+}
+
+message NestRes {
+  string code = 1;
+  string res = 2;
+}

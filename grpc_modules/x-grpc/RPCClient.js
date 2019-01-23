@@ -34,7 +34,9 @@ class RPCClient {
             const filePath = path.join(`${this.protoDir}${packageName}`, file)
             const packageDefinition = protoLoader.loadSync(filePath, this.loaderOptions)
             const Service = grpc.loadPackageDefinition(packageDefinition)[packageName][serviceName]
-            this.serviceMap[packageName][serviceName] = new Service(`${this.ip}:${this.port}`, grpc.credentials.createInsecure(), { interceptors: this.interceptors })
+            if (typeof Service == 'function') {
+              this.serviceMap[packageName][serviceName] = new Service(`${this.ip}:${this.port}`, grpc.credentials.createInsecure(), { interceptors: this.interceptors })
+            }
           }
         }
       }

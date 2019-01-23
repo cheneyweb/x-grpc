@@ -1,0 +1,8 @@
+syntax = "proto3";
+package advanced;
+
+// 嵌套消息定义
+message Child {
+  repeated string extFiled = 1;
+  string extProp = 2;
+}
